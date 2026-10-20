@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guild Settings</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/dashboard">Back</a>
+        <div>Guild Settings</div>
+    </div>
+
+    <div class="container">
+        <h1 id="guildName">Loading...</h1>
+
+        <form id="settingsForm">
+            <div class="card">
+                <label>Punishment Channel</label>
+                <input type="text" id="punishmentChannel">
+            </div>
+
+            <div class="card">
+                <label>Ticket Category</label>
+                <input type="text" id="ticketCategory">
+            </div>
+
+            <div class="card">
+                <label>Staff Role</label>
+                <input type="text" id="staffRole">
+            </div>
+
+            <button class="button" type="submit">Save</button>
+        </form>
+    </div>
+
+    <script>
+        const guildId = window.location.pathname.split("/").pop();
+
+        async function loadSettings() {
+            const res = await fetch(`/settings/${guildId}`);
+            const data = await res.json();
+
+            document.getElementById("guildName").innerText = `Guild: ${guildId}`;
+            document.getElementById("punishmentChannel").value = data.punishmentChannel || "";
+            document.getElementById("ticketCategory").value = data.ticketCategory || "";
+            document.getElementById("staffRole").value = data.staffRole || "";
+        }
+
+        document.getElementById("settingsForm").onsubmit = async (e) => {
+            e.preventDefault();
+
+            const body = {
+                punishmentChannel: document.getElementById("punishmentChannel").value,
+                ticketCategory: document.getElementById("ticketCategory").value,
+                staffRole: document.getElementById("staffRole").value
+            };
+
+            await fetch(`/settings/${guildId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            alert("Saved");
+        };
+
+        loadSettings();
+    </script>
+</body>
+</html>
