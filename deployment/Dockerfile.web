@@ -1,0 +1,12 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY web ./web
+
+RUN npm install --prefix web
+RUN npm run build --prefix web
+
+EXPOSE 3001
+
+CMD ["npm", "run", "start", "--prefix", "web"]
