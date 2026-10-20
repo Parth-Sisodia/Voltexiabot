@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile.backend
+    environment:
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      MAIN_SERVER_ID: ${MAIN_SERVER_ID}
+      REDIRECT_URI: ${REDIRECT_URI}
+      SESSION_SECRET: ${SESSION_SECRET}
+      BACKEND_URL: ${BACKEND_URL}
+      MONGO_URL: ${MONGO_URL}
+      MONGO_DB: ${MONGO_DB}
+    ports:
+      - "3000:3000"
+
+  web:
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile.web
+    environment:
+      BACKEND_URL: ${BACKEND_URL}
+    ports:
+      - "3001:3001"
+
+  bot:
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile.bot
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      MAIN_SERVER_ID: ${MAIN_SERVER_ID}
