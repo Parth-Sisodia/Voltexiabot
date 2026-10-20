@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: backend:latest
+          env:
+            - name: DISCORD_CLIENT_ID
+              value: "${DISCORD_CLIENT_ID}"
+            - name: DISCORD_CLIENT_SECRET
+              value: "${DISCORD_CLIENT_SECRET}"
+            - name: DISCORD_TOKEN
+              value: "${DISCORD_TOKEN}"
+            - name: MAIN_SERVER_ID
+              value: "${MAIN_SERVER_ID}"
+            - name: REDIRECT_URI
+              value: "${REDIRECT_URI}"
+            - name: SESSION_SECRET
+              value: "${SESSION_SECRET}"
+            - name: BACKEND_URL
+              value: "${BACKEND_URL}"
+            - name: MONGO_URL
+              value: "${MONGO_URL}"
+            - name: MONGO_DB
+              value: "${MONGO_DB}"
+          ports:
+            - containerPort: 3000
