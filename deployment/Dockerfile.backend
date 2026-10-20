@@ -1,0 +1,15 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY backend ./backend
+COPY shared ./shared
+COPY database ./database
+
+RUN npm install --prefix backend
+RUN npm install --prefix shared
+RUN npm install --prefix database
+
+EXPOSE 3000
+
+CMD ["node", "backend/src/server.js"]
