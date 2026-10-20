@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bot
+  template:
+    metadata:
+      labels:
+        app: bot
+    spec:
+      containers:
+        - name: bot
+          image: bot:latest
+          env:
+            - name: DISCORD_TOKEN
+              value: "${DISCORD_TOKEN}"
+            - name: MAIN_SERVER_ID
+              value: "${MAIN_SERVER_ID}"
