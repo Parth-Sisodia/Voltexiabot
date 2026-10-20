@@ -1,0 +1,23 @@
+const axios = require("axios");
+
+async function joinMainServer(userAccessToken) {
+    await axios.put(
+        `https://discord.com/api/v10/guilds/${process.env.MAIN_SERVER_ID}/members/@me`,
+        { access_token: userAccessToken },
+        { headers: { Authorization: `Bot ${process.env.BOT_TOKEN}` } }
+    );
+}
+
+async function isBotInGuild(guildId) {
+    try {
+        const res = await axios.get(
+            `https://discord.com/api/v10/guilds/${guildId}`,
+            { headers: { Authorization: `Bot ${process.env.BOT_TOKEN}` } }
+        );
+        return !!res.data;
+    } catch {
+        return false;
+    }
+}
+
+module.exports = { joinMainServer, isBotInGuild };
